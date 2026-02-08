@@ -79,4 +79,9 @@ public class MinCost {
         int[][] waitCost = {{6, 1, 4}, {3, 2, 5}};
         System.out.println(solver.minCost(2, 3, waitCost));  // ✅ Expected: 16
     }
+    
 }
+
+
+
+

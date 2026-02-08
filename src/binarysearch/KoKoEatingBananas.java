@@ -4,37 +4,31 @@ import java.util.Arrays;
 
 public class KoKoEatingBananas {
     public static void main(String[] args) {
-        int[]arr = {805306368,805306368,805306368};
-        System.out.println(minEatingSpeed(arr,1000000000));
+        int[]arr = {3,6,7,11};
+        System.out.println(minEatingSpeed(arr,8));
     }
-    public static int maximum(int[]arr){
-        int max=Integer.MIN_VALUE;
-        for (int j : arr) {
-            max = Math.max(max, j);
+    public static boolean canEatAll(int[] piles , int h , int mid){
+        int ans = 0;
+        for (int pile : piles) {
+            ans += Math.ceilDiv(pile, mid);
         }
-        return max;
+        return ans<=h;
     }
-
-    public static long totalHours(int[] arr, int perhour) {
-        long total = 0;
-        for (int j : arr) {
-            total += Math.ceilDiv(j, perhour);
-        }
-        return total;
-    }
-
-
     public static int minEatingSpeed(int[] piles, int h) {
-        int start = 0;
-        int end = maximum(piles);
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int pile : piles){
+            min = Math.min(min,pile);
+            max = Math.max(max,pile);
+        }
         int ans = -1;
-        while (start <= end) {
-            int mid = start + (end - start) / 2;
-            if (totalHours(piles, mid) <= h) {
+        while(min<=max){
+            int mid = min+ ((max-min)/2);
+            if(canEatAll(piles,h,mid)){
                 ans = mid;
-                end = mid - 1;
+                max--;
             }
-            else start=mid+1;
+            else min++;
         }
         return ans;
     }

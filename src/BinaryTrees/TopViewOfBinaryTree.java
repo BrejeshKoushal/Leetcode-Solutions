@@ -1,6 +1,5 @@
 package BinaryTrees;
 
-import OOPS.exceptions.Array;
 
 import java.util.*;
 class Pair{

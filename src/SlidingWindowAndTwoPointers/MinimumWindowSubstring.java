@@ -6,34 +6,44 @@ import java.util.Map;
 
 public class MinimumWindowSubstring {
     public static void main(String[] args) {
-        String s = "a";
-        String t = "aa";
+        String s = "ADOBECODEBANC";
+        String t = "ABC";
         System.out.println(minWindow(s,t));
     }
     public static String minWindow(String s, String t) {
-        HashMap<Character, Integer> map = new HashMap<>();
-        for(int i = 0 ; i < t.length() ; i++){
-            map.put(t.charAt(i),map.getOrDefault(t.charAt(i),0)+1);
+        if (t.length()>s.length()) return "";
+        int[] freqA = new int[128];
+        int[] freqB = new int[128];
+        for (char ch : s.toCharArray()){
+            freqA[ch-'A']++;
         }
-        int left = 0;
-        int right = 0;
-        int minLen = Integer.MAX_VALUE;
-        int startPoint = -1;
+        for (char ch: t.toCharArray()){
+            freqB[ch-'A']++;
+        }
+        if (Arrays.equals(freqA,freqB)) return s;
+        HashMap<Character,Integer> map = new HashMap<>();
+        for (char ch : t.toCharArray()){
+            map.put(ch,map.getOrDefault(ch,0)+1);
+        }
+        int i = 0;
+        int j = 0;
+        int minLen = 0;
+        int startIdx = -1;
         int count = 0;
-        while(right<s.length()){
-            if(map.containsKey(s.charAt(right))&&map.get(s.charAt(right))>0) count++;
-            map.put(s.charAt(right),map.getOrDefault(s.charAt(right),0)-1);
-            while(count==t.length()){
-                if(right-left+1 < minLen) {
-                    minLen = right-left+1;
-                    startPoint = left;
+        while(j<s.length()){
+            if (map.containsKey(s.charAt(j))&&map.get(s.charAt(j))>0)  count++;
+            map.put(s.charAt(j),map.getOrDefault(s.charAt(j),0)-1);
+            while (count==t.length()){
+                if (j-i+1 < minLen){
+                    minLen=j-i+1;
+                    startIdx = i;
                 }
-                map.put(s.charAt(left),map.get(s.charAt(left))+1);
-                if(map.get(s.charAt(left))>0) count--;
-                left++;
+                map.put(s.charAt(i),map.get(s.charAt(i))+1);
+                if (map.get(s.charAt(i))>0) count--;
+                i++;
             }
-            right++;
+            j++;
         }
-        return startPoint==-1?"": s.substring(startPoint,minLen+startPoint);
+        return startIdx==-1?"":s.substring(startIdx,startIdx+minLen);
     }
 }

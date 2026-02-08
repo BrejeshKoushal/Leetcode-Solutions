@@ -1,11 +1,12 @@
 package Heaps;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class LastStoneWeight {
     public static int lastStoneWeight(int[] stones) {
-        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder());
         int n = stones.length;
         for (int i = 0 ; i < n ; i++){
             pq.add(stones[i]);

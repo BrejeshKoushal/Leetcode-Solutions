@@ -9,34 +9,31 @@ public class LargestRectangleInHistogramOptimized {
         System.out.println(largestRectangleArea(arr));
     }
     public static int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+        int[] lse = new int[n];
+        int[] rse = new int[n];
         Stack<Integer> st = new Stack<>();
-        int[] lse = new int[heights.length];
-        int[] rse = new int[heights.length];
         Arrays.fill(lse,-1);
-        Arrays.fill(rse,heights.length);
-        for(int i = 0 ; i < heights.length;i++){
-            while(!st.isEmpty()&&heights[st.peek()]>heights[i]){
+        Arrays.fill(rse,Integer.MAX_VALUE);
+        for (int i = 0 ; i < n; i++){
+            while(!st.isEmpty()&&heights[st.peek()]>=heights[i]){
                 st.pop();
             }
-            if(!st.isEmpty()){
-                lse[i] = st.peek();
-            }
+            if (!st.isEmpty()) lse[i]=st.peek();
             st.push(i);
         }
         st.clear();
-        for(int i = heights.length-1 ; i >=0;i--){
-            while(!st.isEmpty()&&heights[st.peek()]>heights[i]){
+        for (int i = n-1; i>=0; i--){
+            while (!st.isEmpty() && heights[st.peek()]>=heights[i]){
                 st.pop();
             }
-            if(!st.isEmpty()){
-                rse[i] = st.peek();
-            }
+            if (!st.isEmpty()) rse[i]=st.peek();
             st.push(i);
         }
-        int maxArea = 0;
-        for(int i = 0 ; i < heights.length;i++){
-            maxArea = Math.max(maxArea,((rse[i]-lse[i])-1)*heights[i]);
+        int max = 0;
+        for (int i = 0 ; i < n ; i++){
+            max = Math.max(max, (rse[i]-lse[i]-1)*heights[i]);
         }
-        return maxArea;
+        return max;
     }
 }
